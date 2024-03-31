@@ -51,6 +51,13 @@ namespace lab5s4
             }
         }
 
+        public Contact() { 
+        }
+        public Contact(Contact contact) {
+            Name = contact.Name;
+            Surname = contact.Surname;
+            Phone = contact.Phone;
+        }
         public Contact(string name, string surname, string phone)
         {
             Name = name;

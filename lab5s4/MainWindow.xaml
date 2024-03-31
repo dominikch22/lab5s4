@@ -35,6 +35,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
 
+            <RowDefinition Height="Auto"/>
+
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -100,13 +102,34 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Imię:</Label>
+            <TextBox Grid.Column="0" Margin="70 5 5 5" Text="{Binding Contact.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="1">Nazwisko:</Label>
+            <TextBox Grid.Column="1" Margin="70 5 5 5" Text="{Binding Contact.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="2">Telefon:</Label>
+            <TextBox Grid.Column="2" Margin="70 5 5 5"  Text="{Binding Contact.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Button Grid.Column="3" Click="AddContact" Margin="5 5 5 5 ">Dodaj</Button>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
 
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0">Wynik: </Label>
             <Label Grid.Column="1" Content="{Binding Result}"></Label>
         </Grid>
 
-        <ListView Grid.Row="2" x:Name="contactsListView" ItemsSource="{Binding Contacts}" Margin="5">
+        <ListView Grid.Row="3" x:Name="contactsListView" ItemsSource="{Binding Contacts}" Margin="5">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Imię" DisplayMemberBinding="{Binding Name}"/>

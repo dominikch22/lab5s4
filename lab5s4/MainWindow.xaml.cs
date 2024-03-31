@@ -128,6 +128,10 @@ namespace lab5s4
 
         }
 
+        private void AddContact(object sender, RoutedEventArgs args) {
+            DataModel.RawContacts.Add(new Contact(DataModel.Contact));
+            DataModel.Contacts.Add(new Contact(DataModel.Contact));
+        }
         private void CheckButtonClick(object sender, RoutedEventArgs args)
         {
             string option = DataModel.CheckItem.Content.ToString();

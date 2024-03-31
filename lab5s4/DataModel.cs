@@ -12,7 +12,6 @@ namespace lab5s4
     class DataModel : INotifyPropertyChanged
     {
         public List<Contact> RawContacts;
-        public string FilterByNameLastChar = "na";
         private ObservableCollection<Contact> contacts;
         public ObservableCollection<Contact> Contacts
         {
@@ -32,11 +31,26 @@ namespace lab5s4
         public DataModel()
         {
             RawContacts = new List<Contact>();
+            Contact = new Contact();
             RawContacts.Add(new Contact("Jan", "Kowalski", "123456789"));
             RawContacts.Add(new Contact("Anna", "Nowak", "+48 987654321"));
             RawContacts.Add(new Contact("Michał", "Wiśniewski", "321321321"));
             Contacts = new ObservableCollection<Contact>(RawContacts);
            
+        }
+
+        private Contact _contact;
+        public Contact Contact
+        {
+            get { return _contact; }
+            set
+            {
+                if (_contact != value)
+                {
+                    _contact = value;
+                    OnPropertyChanged(nameof(Contact));
+                }
+            }
         }
 
         private ComboBoxItem _filterItem;
