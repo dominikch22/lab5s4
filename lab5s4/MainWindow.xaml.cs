@@ -149,9 +149,9 @@ namespace lab5s4
                 DataModel.Result = result.ToString();
 
             }
-            else if (option.Equals(Resources["checkKowalski"]))
+            else if (option.Equals(Resources["checkIfContains"]))
             {
-                bool result = DataModel.Contacts.Any(e => e.Surname.Equals("Kowalski"));
+                bool result = DataModel.Contacts.Any(e => e.Surname.Equals(DataModel.Contact.Surname));
 
                 DataModel.Result = result.ToString();
 

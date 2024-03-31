@@ -21,7 +21,7 @@
 
         <sys:String x:Key="checkWoman">Czy jest kobieta</sys:String>
         <sys:String x:Key="checkPolishPhone">Czy jest polski numer</sys:String>
-        <sys:String x:Key="checkKowalski">Czy jest Kowalski</sys:String>
+        <sys:String x:Key="checkIfContains">Czy zawiera podane nazwisko podane w formularzu ponizej</sys:String>
 
         <sys:String x:Key="aggregateSum">Suma długości imion</sys:String>
         <sys:String x:Key="aggregateAverage">Średnia długości imion</sys:String>
@@ -84,7 +84,7 @@
             <ComboBox Grid.Column="6" SelectedItem="{Binding CheckItem}"  x:Name="checkComboBox"  Margin="5">
                 <ComboBoxItem Content="{StaticResource checkWoman}"/>
                 <ComboBoxItem Content="{StaticResource checkPolishPhone}"/>
-                <ComboBoxItem Content="{StaticResource checkKowalski}"/>
+                <ComboBoxItem Content="{StaticResource checkIfContains}"/>
             </ComboBox>
 
             <Button  Grid.Column="7" Click="CheckButtonClick"  Content="Sprawdź" Margin="5"/>
