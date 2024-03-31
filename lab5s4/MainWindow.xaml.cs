@@ -128,20 +128,27 @@ namespace lab5s4
             }
             else if (option.Equals(Resources["transformLowercase"]))
             {
-                var list = DataModel.Contacts.ToList();
+                var list = DataModel.Contacts
+                    .Select(c => new Contact(c.Name.ToLower(), c.Surname.ToLower(), c.Phone))
+                    .ToList();
+               /* var list = DataModel.Contacts.ToList();
                 list.ForEach(c => c.Name = new string(c.Name.ToLower().ToArray()));
                 list.ForEach(c => c.Surname = new string(c.Surname.ToLower().ToArray()));
 
-
+*/
                 DataModel.Contacts = new System.Collections.ObjectModel.ObservableCollection<Contact>(list);
 
             }
             else if (option.Equals(Resources["transformReverse"]))
             {
-                var list = DataModel.Contacts.ToList();
+                var list = DataModel.Contacts
+                   .Select(c => new Contact(new string(c.Name.Reverse().ToArray()), new string(c.Surname.Reverse().ToArray()), c.Phone))
+                   .ToList();
+
+              /*  var list = DataModel.Contacts.ToList();
                 list.ForEach(c => c.Name = new string(c.Name.Reverse().ToArray()));
                 list.ForEach(c => c.Surname = new string(c.Surname.Reverse().ToArray()));
-
+*/
                 DataModel.Contacts = new System.Collections.ObjectModel.ObservableCollection<Contact>(list);
 
             }
