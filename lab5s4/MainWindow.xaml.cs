@@ -38,8 +38,14 @@ namespace lab5s4
 
         private void FilterButton_Click(object sender, RoutedEventArgs args)
         {
-
-            string option = DataModel.FilterItem.Content.ToString();
+            string option;
+            try
+            {
+                option = DataModel.FilterItem.Content.ToString();
+            }
+            catch {
+                return;
+            }
 
             if (option.Equals(Resources["filterByNameLastChar"]))
             {
@@ -70,7 +76,14 @@ namespace lab5s4
 
         private void SortButtonClick(object sender, RoutedEventArgs args)
         {
-            string option = DataModel.SortItem.Content.ToString();
+            string option;
+            try
+            {
+                option = DataModel.SortItem.Content.ToString();
+            }
+            catch {
+                return;
+            }
 
             if (option.Equals(Resources["sortAscending"]))
             {
@@ -92,7 +105,14 @@ namespace lab5s4
 
         private void TransformButtonClick(object sender, RoutedEventArgs args)
         {
-            string option = DataModel.TransformItem.Content.ToString();
+            string option;
+            try
+            {
+                option = DataModel.TransformItem.Content.ToString();
+            }
+            catch {
+                return;
+            }
 
             if (option.Equals(Resources["transformUppercase"]))
             {
@@ -134,7 +154,16 @@ namespace lab5s4
         }
         private void CheckButtonClick(object sender, RoutedEventArgs args)
         {
-            string option = DataModel.CheckItem.Content.ToString();
+            string option;
+            try
+            {
+                 option = DataModel.CheckItem.Content.ToString();
+
+            }
+            catch {
+                return;
+            }
+          
 
             if (option.Equals(Resources["checkWoman"]))
             {
@@ -160,7 +189,14 @@ namespace lab5s4
 
         private void AggregateButtonClick(object sender, RoutedEventArgs args)
         {
-            string option = DataModel.AggregateItem.Content.ToString();
+            string option;
+            try
+            {
+                option = DataModel.AggregateItem.Content.ToString();
+            }
+            catch {
+                return;
+            }
 
             if (option.Equals(Resources["aggregateSum"]))
             {
