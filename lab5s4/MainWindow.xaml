@@ -23,8 +23,8 @@
         <sys:String x:Key="checkPolishPhone">Czy jest polski numer</sys:String>
         <sys:String x:Key="checkKowalski">Czy jest Kowalski</sys:String>
 
-        <sys:String x:Key="aggregateSum">Suma</sys:String>
-        <sys:String x:Key="aggregateAverage">Średnia</sys:String>
+        <sys:String x:Key="aggregateSum">Suma długości imion</sys:String>
+        <sys:String x:Key="aggregateAverage">Średnia długości imion</sys:String>
         <sys:String x:Key="aggregateCount">Liczba elementów</sys:String>
 
 
