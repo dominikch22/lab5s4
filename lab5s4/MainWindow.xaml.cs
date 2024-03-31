@@ -96,10 +96,12 @@ namespace lab5s4
 
             if (option.Equals(Resources["transformUppercase"]))
             {
-                var list = DataModel
-                var list = DataModel.Contacts.ToList();
-                list.ForEach(c => c.Name = new string(c.Name.ToUpper().ToArray()));
-                list.ForEach(c => c.Surname = new string(c.Surname.ToUpper().ToArray()));
+                var list = DataModel.Contacts
+                    .Select(c => new Contact(c.Name.ToUpper(), c.Surname.ToUpper(), c.Phone))
+                    .ToList();
+                /*          var list = DataModel.Contacts.ToList();
+                          list.ForEach(c => c.Name = new string(c.Name.ToUpper().ToArray()));
+                          list.ForEach(c => c.Surname = new string(c.Surname.ToUpper().ToArray()));*/
 
                 DataModel.Contacts = new System.Collections.ObjectModel.ObservableCollection<Contact>(list);
 
@@ -152,11 +154,34 @@ namespace lab5s4
             }
         }
 
-        private void AggregateButtonClick(object sender, RoutedEventArgs args) {
+        private void AggregateButtonClick(object sender, RoutedEventArgs args)
+        {
             string option = DataModel.AggregateItem.Content.ToString();
 
             if (option.Equals(Resources["aggregateSum"]))
             {
+                double result = DataModel.Contacts
+                   .Select(c => c.Name.Length)
+                   .Aggregate((sum, next) => sum + next);
+                DataModel.Result = result.ToString();
+
             }
+            else if (option.Equals(Resources["aggregateAverage"]))
+            {
+                double average = DataModel.Contacts
+                    .Select(c => c.Name.Length)
+                    .Average();
+
+                DataModel.Result = average.ToString();
+
+            }
+            else if (option.Equals(Resources["aggregateCount"]))
+            {
+                int count = DataModel.Contacts.Count();
+                DataModel.Result = count.ToString();
+
+
+            }
+        }
     }
 }
