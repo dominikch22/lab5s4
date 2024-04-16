@@ -1,0 +1,168 @@
+﻿<Window x:Class="lab567s4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:lab567s4"
+        mc:Ignorable="d"
+        Title="Entity Framework + LINQ" Height="450" Width="800">
+    <Window.Resources>
+        <sys:String x:Key="filterByNameLastChar">Na koncu imienia samogloska</sys:String>
+        <sys:String x:Key="filterBySurnameLastChar">Na koncu nazwiska samogloska</sys:String>
+        <sys:String x:Key="filterPolishPhones">Numery zaczynajce sie na +48</sys:String>
+
+        <sys:String x:Key="sortAscending">Rosnąco</sys:String>
+        <sys:String x:Key="sortDescending">Malejąco</sys:String>
+
+        <sys:String x:Key="transformUppercase">Duże litery</sys:String>
+        <sys:String x:Key="transformLowercase">Małe litery</sys:String>
+        <sys:String x:Key="transformReverse">Odwrócenie</sys:String>
+
+        <sys:String x:Key="checkWoman">Czy jest kobieta</sys:String>
+        <sys:String x:Key="checkPolishPhone">Czy jest polski numer</sys:String>
+        <sys:String x:Key="checkIfContains">Czy zawiera podane nazwisko podane w formularzu ponizej</sys:String>
+
+        <sys:String x:Key="aggregateSum">Suma długości imion</sys:String>
+        <sys:String x:Key="aggregateAverage">Średnia długości imion</sys:String>
+        <sys:String x:Key="aggregateCount">Liczba elementów</sys:String>
+
+
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+
+
+
+
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Grid.Column="0" x:Name="filterComboBox"  SelectedItem="{Binding FilterItem}" Margin="5">
+                <ComboBoxItem Content="{StaticResource filterByNameLastChar}"/>
+                <ComboBoxItem Content="{StaticResource filterBySurnameLastChar}"/>
+                <ComboBoxItem Content="{StaticResource filterPolishPhones}"/>
+            </ComboBox>
+
+            <Button  Grid.Column="1" Content="Filtruj"  Click="FilterButton_Click" Margin="5"/>
+
+            <ComboBox  Grid.Column="2"  SelectedItem="{Binding SortItem}" x:Name="sortComboBox" Margin="5">
+                <ComboBoxItem Content="{StaticResource sortAscending}"/>
+                <ComboBoxItem Content="{StaticResource sortDescending}"/>
+            </ComboBox>
+
+            <Button  Grid.Column="3" Click="SortButtonClick" Content="Sortuj" Margin="5"/>
+
+            <ComboBox  Grid.Column="4"  SelectedItem="{Binding TransformItem}" x:Name="transformComboBox" Margin="5">
+                <ComboBoxItem Content="{StaticResource transformUppercase}"/>
+                <ComboBoxItem Content="{StaticResource transformLowercase}"/>
+                <ComboBoxItem Content="{StaticResource transformReverse}"/>
+            </ComboBox>
+
+            <Button Grid.Column="5" Click="TransformButtonClick"  Content="Przekształć" Margin="5"/>
+
+            <ComboBox Grid.Column="6" SelectedItem="{Binding CheckItem}"  x:Name="checkComboBox"  Margin="5">
+                <ComboBoxItem Content="{StaticResource checkWoman}"/>
+                <ComboBoxItem Content="{StaticResource checkPolishPhone}"/>
+                <ComboBoxItem Content="{StaticResource checkIfContains}"/>
+            </ComboBox>
+
+            <Button  Grid.Column="7" Click="CheckButtonClick"  Content="Sprawdź" Margin="5"/>
+
+            <ComboBox  Grid.Column="8" SelectedItem="{Binding AggregateItem}"   x:Name="aggregateComboBox" Margin="5">
+                <ComboBoxItem Content="{StaticResource aggregateSum}"/>
+                <ComboBoxItem Content="{StaticResource aggregateAverage}"/>
+                <ComboBoxItem Content="{StaticResource aggregateCount}"/>
+            </ComboBox>
+
+            <Button Grid.Column="9" Click="AggregateButtonClick" Content="Agreguj"  Margin="5"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+               
+
+
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Ulica:</Label>
+            <TextBox Grid.Column="0" Margin="70 5 5 5" Text="{Binding Address.Street, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="1">Miasto/miescowość:</Label>
+            <TextBox Grid.Column="1" Margin="120 5 5 5" Text="{Binding Address.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="2">Kod pocztowy:</Label>
+            <TextBox Grid.Column="2" Margin="120 5 5 5"  Text="{Binding Address.PostalCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+          
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+
+
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Imię:</Label>
+            <TextBox Grid.Column="0" Margin="70 5 5 5" Text="{Binding Person.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="1">Nazwisko:</Label>
+            <TextBox Grid.Column="1" Margin="70 5 5 5" Text="{Binding Person.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="2">Telefon:</Label>
+            <TextBox Grid.Column="2" Margin="70 5 5 5"  Text="{Binding Person.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="3">Email:</Label>
+            <TextBox Grid.Column="3" Margin="70 5 5 5"  Text="{Binding Person.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Grid.Column="4" Click="EditContact" Margin="5 5 5 5 ">Edytuj</Button>
+
+            <Button Grid.Column="4" Click="AddContact" Margin="5 5 5 5 ">Dodaj</Button>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Wynik:</Label>
+            <Label Grid.Column="1" Content="{Binding Result}"></Label>
+        </Grid>
+
+        <ListView Grid.Row="3" x:Name="contactsListView" ItemsSource="{Binding Persons}" Margin="5">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Imię" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Nazwisko" DisplayMemberBinding="{Binding Surname}"/>
+                    <GridViewColumn Header="Telefon" DisplayMemberBinding="{Binding Phone}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
