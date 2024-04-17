@@ -18,36 +18,37 @@ namespace lab567s4
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class ContactOperation : Window
-    {
-        public Person Person { get; set; }
-        public Address Address { get; set; }
-        public MainModel MainModel { get; set; }
+    {     
+        public OperationModel OperationModel { get; set; }
         public ContactOperation(Person person, Address address)
         {
+           
+
             InitializeComponent();
-            MainModel = new MainModel(Resources);
-            DataContext = MainModel;
+            OperationModel = new OperationModel();
+            DataContext = OperationModel;
 
             operationButton.Content = "Edytuj";
             this.Title = "Edytowanie kontaktu";
 
-            Person = person;
-            Address = address;
+
+            OperationModel.Person = new Person(person);
+            OperationModel.Address = new Address(address);
+            OperationModel.Person.Address = OperationModel.Address;
+
         }
 
         public ContactOperation()
         {
-            DataContext = new MainModel(Resources);
-            MainModel = new MainModel(Resources);
-            DataContext = MainModel;
+            OperationModel = new OperationModel();
+            DataContext = OperationModel;
+
+            OperationModel.Person.Address = OperationModel.Address;
 
             InitializeComponent();
         }
 
         public void Finish(object sender, RoutedEventArgs args) {
-            Person = MainModel.Person;
-            Address = MainModel.Address;
-
             this.DialogResult = true;
             this.Close();
         }

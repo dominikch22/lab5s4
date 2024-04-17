@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,9 +44,13 @@ namespace lab567s4
         public MainModel(ResourceDictionary resources)
         {
             Resources = resources;
+            Person = new Person();
+            Address = new Address();
+            Person.Address = Address;
             using (var contacts = new ContactsContext())
             {
                 //contacts.Persons.RemoveRange(contacts.Persons);
+                //contacts.Addresses.RemoveRange(contacts.Addresses);
                 //contacts.SaveChanges();
                 /*Address address = new Address("szkolna", "bialystok", "14-114");
                 contacts.Addresses.Add(address);
@@ -59,10 +64,11 @@ namespace lab567s4
                 contacts.Persons.Add(person);
                 contacts.SaveChanges();*/
                 //Persons = new ObservableCollection<Person>();
-                //Addresses = new ObservableCollection<Address>(contacts.Addresses.ToList());
-                this.SetPersons(contacts.Persons.ToList());
-            }
-            AddContact();
+                Addresses = new ObservableCollection<Address>(contacts.Addresses.ToList());
+               
+                this.SetPersons(contacts.Persons.Include(p => p.Address).ToList());
+            }   
+            //AddContact();
 
         }
 
@@ -88,6 +94,18 @@ namespace lab567s4
 
                 _address = value;
                 OnPropertyChanged(nameof(Address));
+
+            }
+        }
+
+        private string _phrase;
+        public string Phrase {
+            get { return _phrase; }
+            set
+            {
+
+                _phrase = value;
+                OnPropertyChanged(nameof(Phrase));
 
             }
         }
@@ -185,6 +203,17 @@ namespace lab567s4
         public void SetPersons(List<Person> persons)
         {
             Persons = new ObservableCollection<Person>(persons.ToList());
+        }
+
+        public void UpdateAllContacts()
+        {
+            using (var contacts = new ContactsContext())
+            {
+                
+                Addresses = new ObservableCollection<Address>(contacts.Addresses.ToList());
+
+                this.SetPersons(contacts.Persons.Include(p => p.Address).ToList());
+            }
         }
 
         public void AddContact()

@@ -21,7 +21,9 @@
 
         <sys:String x:Key="checkWoman">Czy jest kobieta</sys:String>
         <sys:String x:Key="checkPolishPhone">Czy jest polski numer</sys:String>
-        <sys:String x:Key="checkIfContains">Czy zawiera podane nazwisko podane w formularzu ponizej</sys:String>
+        <sys:String x:Key="checkIfContains">Czy zawiera podane nazwisko</sys:String>
+        <sys:String x:Key="checkIfContainsCity">Czy zawiera podane miasto</sys:String>
+
 
         <sys:String x:Key="aggregateSum">Suma długości imion</sys:String>
         <sys:String x:Key="aggregateAverage">Średnia długości imion</sys:String>
@@ -42,6 +44,7 @@
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -84,40 +87,38 @@
             <ComboBox Grid.Column="6" SelectedItem="{Binding CheckItem}"  x:Name="checkComboBox"  Margin="5">
                 <ComboBoxItem Content="{StaticResource checkWoman}"/>
                 <ComboBoxItem Content="{StaticResource checkPolishPhone}"/>
-                <ComboBoxItem Content="{StaticResource checkIfContains}"/>
+                <ComboBoxItem Content="{StaticResource checkIfContains}"/> 
+                <ComboBoxItem Content="{StaticResource checkIfContainsCity}"/>
+
             </ComboBox>
 
-            <Button  Grid.Column="7" Click="CheckButtonClick"  Content="Sprawdź" Margin="5"/>
+            <TextBox Grid.Column="7" Margin="5"  Text="{Binding Phrase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                
+            </TextBox>
 
-            <ComboBox  Grid.Column="8" SelectedItem="{Binding AggregateItem}"   x:Name="aggregateComboBox" Margin="5">
+            <Button  Grid.Column="8" Click="CheckButtonClick"  Content="Sprawdź" Margin="5"/>
+
+            <ComboBox  Grid.Column="9" SelectedItem="{Binding AggregateItem}"   x:Name="aggregateComboBox" Margin="5">
                 <ComboBoxItem Content="{StaticResource aggregateSum}"/>
                 <ComboBoxItem Content="{StaticResource aggregateAverage}"/>
                 <ComboBoxItem Content="{StaticResource aggregateCount}"/>
             </ComboBox>
 
-            <Button Grid.Column="9" Click="AggregateButtonClick" Content="Agreguj"  Margin="5"/>
+            <Button Grid.Column="10" Click="AggregateButtonClick" Content="Agreguj"  Margin="5"/>
         </Grid>
+
+       
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
-               
-
 
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Ulica:</Label>
-            <TextBox Grid.Column="0" Margin="70 5 5 5" Text="{Binding Address.Street, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-            <Label Grid.Column="1">Miasto/miescowość:</Label>
-            <TextBox Grid.Column="1" Margin="120 5 5 5" Text="{Binding Address.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-            <Label Grid.Column="2">Kod pocztowy:</Label>
-            <TextBox Grid.Column="2" Margin="120 5 5 5"  Text="{Binding Address.PostalCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-          
+            <Label Grid.Column="0">Wynik:</Label>
+            <Label Grid.Column="1" Content="{Binding Result}"></Label>
         </Grid>
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -129,38 +130,27 @@
 
 
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Imię:</Label>
-            <TextBox Grid.Column="0" Margin="70 5 5 5" Text="{Binding Person.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Grid.Column="1" Click="DeleteContact" Margin="5 5 5 5 ">Usuń kontakt</Button>
 
-            <Label Grid.Column="1">Nazwisko:</Label>
-            <TextBox Grid.Column="1" Margin="70 5 5 5" Text="{Binding Person.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <Label Grid.Column="2">Telefon:</Label>
-            <TextBox Grid.Column="2" Margin="70 5 5 5"  Text="{Binding Person.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Grid.Column="2" Click="LoadContacts" Margin="5 5 5 5 ">Ładuj</Button>
 
-            <Label Grid.Column="3">Email:</Label>
-            <TextBox Grid.Column="3" Margin="70 5 5 5"  Text="{Binding Person.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <Button Grid.Column="4" Click="EditContact" Margin="5 5 5 5 ">Edytuj</Button>
+            <Button Grid.Column="3" Click="EditContact" Margin="5 5 5 5 ">Edytuj</Button>
 
             <Button Grid.Column="4" Click="AddContact" Margin="5 5 5 5 ">Dodaj</Button>
         </Grid>
 
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Wynik:</Label>
-            <Label Grid.Column="1" Content="{Binding Result}"></Label>
-        </Grid>
-
-        <ListView Grid.Row="3" x:Name="contactsListView" ItemsSource="{Binding Persons}" Margin="5">
+        <ListView Grid.Row="3" x:Name="contactsListView" ItemsSource="{Binding Persons}" Margin="5"  SelectionChanged="contactsListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Imię" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="Nazwisko" DisplayMemberBinding="{Binding Surname}"/>
                     <GridViewColumn Header="Telefon" DisplayMemberBinding="{Binding Phone}"/>
+                    <GridViewColumn Header="email" DisplayMemberBinding="{Binding Email}"/>
+
+                    <GridViewColumn Header="Ulica" DisplayMemberBinding="{Binding Address.Street}"/>
+                    <GridViewColumn Header="Miasto" DisplayMemberBinding="{Binding Address.City}"/>
+                    <GridViewColumn Header="kod pocztowy" DisplayMemberBinding="{Binding Address.PostalCode}"/>
                 </GridView>
             </ListView.View>
         </ListView>

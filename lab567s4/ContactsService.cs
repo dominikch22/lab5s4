@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    int count = contacts.Persons.Count();
+                    int count = Persons.Count();
                     Result = count.ToString();
                 }
 
@@ -80,7 +81,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    bool result = contacts.Persons
+                    bool result = Persons.ToList()
                         .Any(e => "aeiouy".Contains(Char.ToLower(e.Name[e.Name.Length - 1])));
 
                     Result = result.ToString();
@@ -91,7 +92,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    bool result = contacts.Persons
+                    bool result = Persons.ToList()
                         .Any(e => e.Phone.StartsWith("+48"));
 
                     Result = result.ToString();
@@ -103,8 +104,20 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    bool result = contacts.Persons
-                        .Any(e => e.Surname.Equals(Person.Surname));
+                    bool result = Persons
+                        .Any(e => e.Surname.Equals(Phrase));
+
+                    Result = result.ToString();
+                }
+
+
+            }
+            else if (option.Equals(Resources["checkIfContainsCity"]))
+            {
+                using (var contacts = new ContactsContext())
+                {
+                    bool result = Persons
+                        .Any(e => e.Address.City.Equals(Phrase));
 
                     Result = result.ToString();
                 }
@@ -130,7 +143,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    var list = contacts.Persons
+                    var list = Persons
                            .Select(p => new Person(p.PersonId ,p.Name.ToUpper(), p.Surname.ToUpper(),p.Email, p.Phone, p.Address))
                            .ToList();
                     SetPersons(list);
@@ -140,7 +153,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    var list = contacts.Persons
+                    var list = Persons
                    .Select(p => new Person(p.PersonId, p.Name.ToLower(), p.Surname.ToLower(),p.Email, p.Phone, p.Address))
                    .ToList();
                     SetPersons(list);
@@ -150,7 +163,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    var list = contacts.Persons
+                    var list = Persons
                       .Select(p => new Person(p.PersonId, new string(p.Name.Reverse().ToArray()), new string(p.Surname.Reverse().ToArray()),p.Email, p.Phone, p.Address))
                       .ToList();
                     SetPersons(list);
@@ -176,7 +189,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    var list = contacts.Persons
+                    var list = Persons
                       .OrderBy(e => e.Surname)
                       .ToList();
                     SetPersons(list);
@@ -189,7 +202,7 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    var list = contacts.Persons
+                    var list = Persons
                        .OrderByDescending(e => e.Surname)
                        .ToList();
                     SetPersons(list);
@@ -226,7 +239,7 @@ namespace lab567s4
                                where lastChar == 'a' || lastChar == 'e' || lastChar == 'i' || lastChar == 'o' || lastChar == 'u' || lastChar == 'y'
                                select person;*/
                     
-                    var list = contacts.Persons.ToList()
+                    var list = Persons
                           .Where(e => "aeiouy".Contains(Char.ToLower(e.Name[e.Name.Length - 1])))
                           .ToList();
                     //Persons = new System.Collections.ObjectModel.ObservableCollection<Person>(list.ToList());
@@ -237,10 +250,9 @@ namespace lab567s4
             {
                 using (var contacts = new ContactsContext())
                 {
-                    var list = contacts.Persons
+                    var list = Persons
                         .Where(e => "aeiouy".Contains(Char.ToLower(e.Surname[e.Surname.Length - 1])))
                         .ToList();
-                    Console.WriteLine(list[0]);
                     SetPersons(list);
                 }
 

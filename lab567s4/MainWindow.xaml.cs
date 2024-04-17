@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -34,6 +35,10 @@ namespace lab567s4
 
         }
 
+        private void LoadContacts(object sender, RoutedEventArgs args) { 
+            MainModel.UpdateAllContacts();
+        }
+
         private void SortButtonClick(object sender, RoutedEventArgs args)
         {
             MainModel.Sort();
@@ -49,9 +54,21 @@ namespace lab567s4
         {
             ContactOperation contactOperation = new ContactOperation();
             contactOperation.ShowDialog();
-            //MainModel.AddContact();
-            InitializeComponent();
-           
+
+            if ((bool)contactOperation.DialogResult) {
+                using (var db = new ContactsContext()) {
+                    try {
+                        db.Addresses.Add(contactOperation.OperationModel.Address);
+                        db.Persons.Add(contactOperation.OperationModel.Person);
+                        db.SaveChanges();
+
+                        MainModel.UpdateAllContacts();
+                    }
+                    catch { }
+                   
+
+                }
+            }
         }
         private void CheckButtonClick(object sender, RoutedEventArgs args)
         {
@@ -62,5 +79,63 @@ namespace lab567s4
         {
             MainModel.Aggregate();
         }
-}
+
+        private void DeleteContact(object sender, RoutedEventArgs args) { 
+            using(var db = new ContactsContext())
+            {
+                try
+                {
+                    db.Persons.Remove(MainModel.Person);
+                    db.Addresses.Remove(MainModel.Address);
+                    db.SaveChanges();
+
+                    MainModel.Persons.Remove(MainModel.Person);
+                }
+                catch { }
+                
+
+            }
+        }
+
+        private void EditContact(object sender, RoutedEventArgs args)
+        {
+            if (MainModel.Person.PersonId == 0)
+            {
+                return;
+            }
+            ContactOperation contactOperation = new ContactOperation(MainModel.Person, MainModel.Address);
+            contactOperation.ShowDialog();
+            if ((bool)contactOperation.DialogResult)
+            {
+                using (var db = new ContactsContext())
+                {
+                    try
+                    {
+                        db.Addresses.Update(contactOperation.OperationModel.Address);
+                        db.Persons.Update(contactOperation.OperationModel.Person);
+                        db.SaveChanges();
+
+                    }
+                    catch { }
+                    
+                    MainModel.UpdateAllContacts();
+                }
+            }
+
+        }
+
+        private void contactsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Person selectedPerson = contactsListView.SelectedItem as Person;
+            if(selectedPerson == null) {
+                selectedPerson = new Person();
+                selectedPerson.Address = new Address();
+            }
+
+            
+                MainModel.Person = selectedPerson;
+                MainModel.Address = selectedPerson.Address;
+            
+        }
+    }
 }
